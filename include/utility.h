@@ -24,6 +24,8 @@ typedef device_matrix<float> mat;
 #define RED_ERROR (util::red("[Error] ") + __WHERE__ )
 #define YELLOW_WARNING (util::yellow("[WARNING] ") + __WHERE__ )
 
+#define DEBUG_STR(x) ("\33[33m"#x"\33[0m = " + to_string(x) + "\t")
+
 #ifdef DEBUG
 
 #define PAUSE {\
@@ -139,6 +141,23 @@ std::string to_string(T n) {
   std::stringstream ss;
   ss << n;
   return ss.str();
+}
+
+// trim from start
+static inline std::string ltrim(std::string s) {
+  s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+  return s;
+}
+
+// trim from end
+static inline std::string rtrim(std::string s) {
+  s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+  return s;
+}
+
+// trim from both ends
+static inline std::string trim(const std::string &s) {
+  return ltrim(rtrim(s));
 }
 
 int str2int(const std::string &s);

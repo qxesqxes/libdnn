@@ -83,7 +83,24 @@ public:
   T& operator() (size_t i, size_t j) {
     return _data[j * _rows + i];
   }
+
   const T& operator() (size_t i, size_t j) const {
+    return _data[j * _rows + i];
+  }
+
+  T& get(size_t idx) {
+    return _data[idx];
+  }
+
+  const T& get(size_t idx) const {
+    return _data[idx];
+  }
+
+  T& get(size_t i, size_t j) {
+    return _data[j * _rows + i];
+  }
+
+  const T& get(size_t i, size_t j) const {
     return _data[j * _rows + i];
   }
 
@@ -109,14 +126,16 @@ public:
     std::fill(_data, _data + size(), value);
   }
 
+  void status() const {
+    printf("\33[33m[Info]\33[0m rows = %lu, cols = %lu, capacity = %lu\n", _rows, _cols, _capacity);
+  }
+
   void print(FILE* fid = stdout) const {
     for (size_t i=0; i<_rows; ++i) {
       for (size_t j=0; j<_cols; ++j)
 	fprintf(fid, "%.5f ", _data[j * _rows + i]);
       fprintf(fid, "\n");
     }
-
-    fprintf(fid, "rows = %lu, cols = %lu, capacity = %lu\n", _rows, _cols, _capacity);
   }
 
   size_t size() const { return _rows * _cols; }
